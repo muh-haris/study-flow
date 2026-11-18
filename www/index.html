@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#3b48df" />
+  <meta name="description" content="StudyFlow - a simple student planner for assignments, deadlines and progress." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>StudyFlow · Student Planner</title>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>Study<span class="brand-accent">Flow</span><small>STUDENT PLANNER</small></span></div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="nav-list" aria-label="Main pages">
+        <button class="nav-item active" data-view="all"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="upcoming"><span>◷</span> Upcoming</button>
+        <button class="nav-item" data-view="completed"><span>✓</span> Completed</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="tip-card"><div class="tip-icon">✧</div><strong>Make every day count</strong><p>One small task at a time. Your progress starts here.</p></div><p class="version">StudyFlow v1.0 · Offline ready</p></div>
+    </aside>
+    <main class="main-content">
+      <div class="topbar"><div class="crumb">My workspace <span>/</span> <strong>Overview</strong></div><div class="top-actions"><span class="today-pill" id="today-label"></span><div class="avatar">SF</div></div></div>
+      <section class="intro"><div><p class="eyebrow">YOUR PERSONAL STUDY SPACE</p><h1>Stay on top of your studies <span class="sparkle">✦</span></h1><p class="lead">Plan your assignments, meet deadlines and celebrate every win.</p></div><button class="btn btn-primary" id="top-add" type="button"><span class="plus">＋</span> New assignment</button></section>
+      <section class="summary-grid" aria-label="Task summary">
+        <div class="metric-card"><div class="metric-top"><span>Total assignments</span><span class="metric-icon indigo">▤</span></div><strong id="metric-total">0</strong><span class="metric-note">Everything on your plate</span></div>
+        <div class="metric-card"><div class="metric-top"><span>In progress</span><span class="metric-icon orange">◷</span></div><strong id="metric-active">0</strong><span class="metric-note">Keep the momentum going</span></div>
+        <div class="metric-card"><div class="metric-top"><span>Completed</span><span class="metric-icon green">✓</span></div><strong id="metric-done">0</strong><span class="metric-note">Tasks you have conquered</span></div>
+        <div class="metric-card"><div class="metric-top"><span>Overdue</span><span class="metric-icon red">!</span></div><strong id="metric-overdue">0</strong><span class="metric-note">Need your attention</span></div>
+      </section>
+      <section class="workspace-grid">
+        <div class="task-panel"><div class="panel-heading"><div><h2 id="task-heading">Your assignments</h2><p>Manage your priorities, one task at a time.</p></div><span class="item-count" id="task-count">0 tasks</span></div>
+          <div class="controls"><label class="search-box"><span>⌕</span><input type="search" id="search" placeholder="Search assignments..." aria-label="Search assignments" /></label><select id="priority-filter" aria-label="Filter by priority"><option value="all">All priorities</option><option value="high">High priority</option><option value="medium">Medium priority</option><option value="low">Low priority</option></select><select id="sort" aria-label="Sort assignments"><option value="due">Due date</option><option value="priority">Priority</option><option value="recent">Recently added</option></select></div>
+          <div class="task-list" id="task-list" aria-live="polite"></div>
+          <div class="empty-state" id="empty-state" hidden><div class="empty-icon">☑</div><h3>No assignments found</h3><p>Try a different filter, or add your first assignment.</p><button class="btn btn-outline" type="button" id="empty-add">＋ Add assignment</button></div>
+        </div>
+        <aside class="right-stack"><div class="progress-card"><div class="card-title"><h2>Study progress</h2><span>✧</span></div><div class="progress-number" id="progress-number">0%</div><p>of your assignments completed</p><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><div class="progress-bottom"><span id="progress-detail">0 of 0 completed</span><span>Keep it going!</span></div></div>
+          <div class="quick-card"><h2>Quick actions</h2><button type="button" id="quick-add"><span class="quick-icon">＋</span><span><strong>Add an assignment</strong><small>Capture what needs doing</small></span><span>›</span></button><button type="button" id="export-btn"><span class="quick-icon purple">↓</span><span><strong>Export my data</strong><small>Download a JSON backup</small></span><span>›</span></button><button type="button" id="import-btn"><span class="quick-icon amber">↑</span><span><strong>Import a backup</strong><small>Restore saved assignments</small></span><span>›</span></button><input id="import-file" type="file" accept="application/json,.json" hidden /></div>
+          <div class="quote-card"><span>“</span><p>Success is the sum of small efforts, repeated day in and day out.</p><small>YOUR DAILY REMINDER</small></div>
+        </aside>
+      </section>
+      <footer>Built with care for students · Your tasks are stored on this device</footer>
+    </main>
+  </div>
+  <nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="all"><span>▦</span>Home</button><button data-view="upcoming"><span>◷</span>Upcoming</button><button data-view="completed"><span>✓</span>Done</button><button id="mobile-add"><span>＋</span>Add</button></nav>
+  <dialog id="task-dialog" aria-labelledby="dialog-title"><form id="task-form" class="task-form"><div class="dialog-head"><div><p class="eyebrow">STUDYFLOW TASKS</p><h2 id="dialog-title">New assignment</h2></div><button class="icon-button" type="button" id="dialog-close" aria-label="Close">×</button></div><input type="hidden" id="task-id" /><label for="title">Assignment title <span>*</span></label><input id="title" maxlength="120" required placeholder="e.g. Finish research proposal" /><div class="field-row"><div><label for="course">Course / subject</label><input id="course" maxlength="80" placeholder="e.g. Computer Science" /></div><div><label for="due">Due date <span>*</span></label><input type="date" id="due" required /></div></div><label for="priority">Priority</label><select id="priority"><option value="medium">Medium priority</option><option value="high">High priority</option><option value="low">Low priority</option></select><label for="notes">Notes (optional)</label><textarea id="notes" rows="3" maxlength="500" placeholder="Any helpful details..."></textarea><div class="dialog-footer"><button class="btn btn-outline" type="button" id="dialog-cancel">Cancel</button><button class="btn btn-primary" type="submit" id="save-btn">Save assignment</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
